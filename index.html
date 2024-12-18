@@ -17,11 +17,10 @@
   </head>
   <body
     class="bg-gray-100 min-h-screen flex flex-col items-center justify-start space-y-4 bg-gray-800 text-white px-2">
-    
     <form
       id="newsletterForm"
       class="space-y-4 flex flex-col text-center lg:text-left lg:flex-row items-center lg:items-end justify-center gap-x-12 w-full py-6 relative">
-      <div class="flex flex-col gap-y-1 ">
+      <div class="flex flex-col gap-y-1">
         <h2 class="newsletter-heading text-lg font-bold text-white">
           Sign Up for Our Newsletter
         </h2>
@@ -57,7 +56,9 @@
         <form id="investmentForm" class="space-y-4 text-black">
           <div class="form-control">
             <label class="label">
-              <span class="label-text initial-amount-label">Initial Investment Amount (USD)</span>
+              <span class="label-text initial-amount-label"
+                >Initial Investment Amount (USD)</span
+              >
             </label>
             <input
               type="number"
@@ -68,7 +69,9 @@
           </div>
           <div class="form-control">
             <label class="label">
-              <span class="label-text apr-label">Annual Percentage Rate (APR in %)</span>
+              <span class="label-text apr-label"
+                >Annual Percentage Rate (APR in %)</span
+              >
             </label>
             <input
               type="number"
@@ -79,7 +82,9 @@
           </div>
           <div class="form-control">
             <label class="label">
-              <span class="label-text duration-label">Investment Duration (e.g., 18D, 2M, 1Y)</span>
+              <span class="label-text duration-label"
+                >Investment Duration (e.g., 18D, 2M, 1Y)</span
+              >
             </label>
             <input
               type="text"
@@ -90,7 +95,9 @@
           </div>
           <div class="form-control">
             <label class="label">
-              <span class="label-text contribution-label">Additional Contribution (USD)</span>
+              <span class="label-text contribution-label"
+                >Additional Contribution (USD)</span
+              >
             </label>
             <input
               type="number"
@@ -101,7 +108,9 @@
           </div>
           <div class="form-control">
             <label class="label">
-              <span class="label-text interval-label">Contribution Interval (days)</span>
+              <span class="label-text interval-label"
+                >Contribution Interval (days)</span
+              >
             </label>
             <input
               type="number"
@@ -111,8 +120,8 @@
               value="30" />
           </div>
 
-           <!-- Advanced Parameters Section -->
-           <div class="collapse collapse-arrow bg-gray-200 rounded-lg">
+          <!-- Advanced Parameters Section -->
+          <div class="collapse collapse-arrow bg-gray-200 rounded-lg">
             <input type="checkbox" id="advancedParamsToggle" />
             <div class="collapse-title text-md font-medium text-gray-800">
               Advanced Parameters
@@ -180,23 +189,38 @@
         </div>
       </div>
     </div>
-    
+
     <footer class="w-full bg-gray-800 text-white py-6">
-      <div class="container mx-auto flex flex-col lg:flex-row items-center justify-between">
+      <div
+        class="container mx-auto flex flex-col lg:flex-row items-center justify-between">
         <div>
           <p class="contact-me text-lg font-semibold">Contact Me</p>
           <p>
-            <span class="email-label">Email</span>: 
-            <a href="mailto:mo.alfaghi@gmail.com" class="underline text-blue-400">mo.alfaghi@gmail.com</a>
+            <span class="email-label">Email</span>:
+            <a
+              href="mailto:mo.alfaghi@gmail.com"
+              class="underline text-blue-400"
+              >mo.alfaghi@gmail.com</a
+            >
           </p>
           <p>
-            <span class="whatsapp-label">WhatsApp</span>: 
-            <a href="https://wa.me/+218926462359" target="_blank" class="underline text-green-400">+218926462359</a>
+            <span class="whatsapp-label">WhatsApp</span>:
+            <a
+              href="https://wa.me/+218926462359"
+              target="_blank"
+              class="underline text-green-400"
+              >+218926462359</a
+            >
           </p>
         </div>
         <div>
           <p class="follow-me text-lg font-semibold">Follow Me</p>
-          <a href="https://linktr.ee/malfaghi" target="_blank" class="underline text-blue-400">Linktree</a>
+          <a
+            href="https://linktr.ee/malfaghi"
+            target="_blank"
+            class="underline text-blue-400"
+            >Linktree</a
+          >
         </div>
       </div>
     </footer>
@@ -489,29 +513,46 @@
         body.setAttribute("dir", language === "ar" ? "rtl" : "ltr");
 
         // Update page content
-        document.querySelector(".newsletter-heading").textContent = translations[language].newsletterHeading;
-        document.querySelector(".newsletter-description").textContent = translations[language].newsletterDescription;
-        document.getElementById("newsletterEmail").placeholder = translations[language].newsletterPlaceholder;
+        document.querySelector(".newsletter-heading").textContent =
+          translations[language].newsletterHeading;
+        document.querySelector(".newsletter-description").textContent =
+          translations[language].newsletterDescription;
+        document.getElementById("newsletterEmail").placeholder =
+          translations[language].newsletterPlaceholder;
 
-        document.querySelector(".contact-me").textContent = translations[language].contactMe;
-        document.querySelector(".email-label").textContent = translations[language].email;
-        document.querySelector(".whatsapp-label").textContent = translations[language].whatsapp;
-        document.querySelector(".follow-me").textContent = translations[language].followMe;
+        document.querySelector(".contact-me").textContent =
+          translations[language].contactMe;
+        document.querySelector(".email-label").textContent =
+          translations[language].email;
+        document.querySelector(".whatsapp-label").textContent =
+          translations[language].whatsapp;
+        document.querySelector(".follow-me").textContent =
+          translations[language].followMe;
 
-        document.querySelector(".initial-amount-label").textContent = translations[language].initialAmountLabel;
-        document.getElementById("initialAmount").placeholder = translations[language].initialAmountPlaceholder;
+        document.querySelector(".initial-amount-label").textContent =
+          translations[language].initialAmountLabel;
+        document.getElementById("initialAmount").placeholder =
+          translations[language].initialAmountPlaceholder;
 
-        document.querySelector(".apr-label").textContent = translations[language].aprLabel;
-        document.getElementById("apr").placeholder = translations[language].aprPlaceholder;
+        document.querySelector(".apr-label").textContent =
+          translations[language].aprLabel;
+        document.getElementById("apr").placeholder =
+          translations[language].aprPlaceholder;
 
-        document.querySelector(".duration-label").textContent = translations[language].durationLabel;
-        document.getElementById("duration").placeholder = translations[language].durationPlaceholder;
+        document.querySelector(".duration-label").textContent =
+          translations[language].durationLabel;
+        document.getElementById("duration").placeholder =
+          translations[language].durationPlaceholder;
 
-        document.querySelector(".contribution-label").textContent = translations[language].contributionLabel;
-        document.getElementById("additionalContribution").placeholder = translations[language].contributionPlaceholder;
+        document.querySelector(".contribution-label").textContent =
+          translations[language].contributionLabel;
+        document.getElementById("additionalContribution").placeholder =
+          translations[language].contributionPlaceholder;
 
-        document.querySelector(".interval-label").textContent = translations[language].intervalLabel;
-        document.getElementById("contributionInterval").placeholder = translations[language].intervalPlaceholder;
+        document.querySelector(".interval-label").textContent =
+          translations[language].intervalLabel;
+        document.getElementById("contributionInterval").placeholder =
+          translations[language].intervalPlaceholder;
       }
 
       // Add event listener to language selector
