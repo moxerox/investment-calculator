@@ -1,274 +1,526 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Investment Calculator</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://cdn.jsdelivr.net/npm/daisyui@2.51.4/dist/full.css" rel="stylesheet" type="text/css">
-  <style>
-    body {
-      font-family: 'Inter', sans-serif;
-    }
-  </style>
-</head>
-<body class="bg-gray-100 min-h-screen flex flex-col items-center justify-start space-y-4">
-
-    <form id="newsletterForm" class="space-y-4 flex items-end justify-center gap-x-12 bg-white w-full py-6">
-        <div class="flex flex-col gap-y-1">
-            <h2 class="text-lg font-bold text-gray-800">Sign Up for Our Newsletter</h2>
-            <p class="text-gray-500">We'll notify you with all our new tools</p>
-        </div>
-        <div class="form-control">
-          <input type="email" id="newsletterEmail" class="input input-bordered w-full" placeholder="Enter your email" required>
-        </div>
-        <div class="form-control">
-          <button type="submit" class="btn btn-primary w-full">Sign Up</button>
-        </div>
-      </form>
-  <div class="w-full max-w-5xl p-6 bg-white rounded-lg shadow-md grid grid-cols-1 lg:grid-cols-2 gap-8">
-    <!-- Form Section -->
-    <div>
-      <h1 class="text-2xl font-bold text-gray-800 text-center mb-4">Investment Calculator</h1>
-      <form id="investmentForm" class="space-y-4">
-        <div class="form-control">
-          <label class="label">
-            <span class="label-text">Initial Investment Amount (USD)</span>
-          </label>
-          <input type="number" id="initialAmount" class="input input-bordered w-full" placeholder="e.g., 1000" required>
-        </div>
-        <div class="form-control">
-          <label class="label">
-            <span class="label-text">Annual Percentage Rate (APR in %)</span>
-          </label>
-          <input type="number" id="apr" class="input input-bordered w-full" placeholder="e.g., 180" required>
-        </div>
-        <div class="form-control">
-          <label class="label">
-            <span class="label-text">Investment Duration (e.g., 18D, 2M, 1Y)</span>
-          </label>
-          <input type="text" id="duration" class="input input-bordered w-full" placeholder="e.g., 1Y" required>
-        </div>
-        <div class="form-control">
-          <label class="label">
-            <span class="label-text">Additional Contribution (USD)</span>
-          </label>
-          <input type="number" id="additionalContribution" class="input input-bordered w-full" placeholder="e.g., 1000" value="0">
-        </div>
-        <div class="form-control">
-          <label class="label">
-            <span class="label-text">Contribution Interval (days)</span>
-          </label>
-          <input type="number" id="contributionInterval" class="input input-bordered w-full" placeholder="e.g., 30" value="30">
-        </div>
-
-        <!-- Advanced Parameters Section -->
-        <div class="collapse collapse-arrow bg-gray-200 rounded-lg">
-          <input type="checkbox" id="advancedParamsToggle">
-          <div class="collapse-title text-md font-medium text-gray-800">
-            Advanced Parameters
-          </div>
-          <div class="collapse-content">
-            <div class="form-control">
-              <label class="label">
-                <span class="label-text">Compounding Frequency (days)</span>
-              </label>
-              <input type="number" id="compoundingFrequency" class="input input-bordered w-full" placeholder="e.g., 7" value="7">
-            </div>
-            <div class="form-control mt-4">
-              <label class="label">
-                <span class="label-text">Currency Conversion Rate</span>
-              </label>
-              <input type="number" id="conversionRate" class="input input-bordered w-full" placeholder="e.g., 6" value="1">
-            </div>
-          </div>
-        </div>
-
-        <div class="form-control">
-          <button type="button" id="calculateButton" class="btn btn-primary w-full">Calculate</button>
-        </div>
-      </form>
-    </div>
-
-    <!-- Results Section -->
-    <div id="results" class="hidden p-6 bg-gray-50 rounded-lg shadow-md">
-      <h2 class="text-xl font-semibold text-gray-800 mb-4">Results:</h2>
-      <div class="space-y-2">
-        <p id="resultDuration" class="text-gray-700"></p>
-        <p id="resultFinalValue" class="text-gray-700 flex items-center">
-          <span>Final Investment Value: </span>
-          <span class="ml-2" id="resultFinalValueText">$0.00</span>
-          <button class="ml-4 btn btn-ghost text-blue-500" id="copyFinalValue">
-            <i class="fas fa-copy"></i> Copy
-          </button>
-          <button class="ml-2 btn btn-ghost text-green-500" id="shareFinalValue">
-            <i class="fas fa-share-alt"></i> Share
-          </button>
+<html lang="en" theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Investment Calculator</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      href="https://cdn.jsdelivr.net/npm/daisyui@2.51.4/dist/full.css"
+      rel="stylesheet"
+      type="text/css" />
+    <style>
+      body {
+        font-family: "Inter", sans-serif;
+      }
+    </style>
+  </head>
+  <body
+    class="bg-gray-100 min-h-screen flex flex-col items-center justify-start space-y-4 bg-gray-800 text-white px-2">
+    
+    <form
+      id="newsletterForm"
+      class="space-y-4 flex flex-col text-center lg:text-left lg:flex-row items-center lg:items-end justify-center gap-x-12 w-full py-6 relative">
+      <div class="flex flex-col gap-y-1 ">
+        <h2 class="newsletter-heading text-lg font-bold text-white">
+          Sign Up for Our Newsletter
+        </h2>
+        <p class="newsletter-description text-gray-200">
+          We'll notify you with all our new tools
         </p>
-        <p id="resultTotalInvested" class="text-gray-700"></p>
-        <p id="resultTotalProfit" class="text-gray-700"></p>
-        <p id="resultROI" class="text-gray-700"></p>
-        <p id="resultConvertedValue" class="text-gray-700"></p>
-        <p id="resultConvertedProfit" class="text-gray-700"></p>
+        <div class="absolute top-4 right-4 text-black">
+          <select id="languageSelector" class="select select-bordered">
+            <option value="en">English</option>
+            <option value="ar">العربية</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-control text-black">
+        <input
+          type="email"
+          id="newsletterEmail"
+          class="input input-bordered w-full newsletter-placeholder"
+          placeholder="Enter your email"
+          required />
+      </div>
+      <div class="form-control">
+        <button type="submit" class="btn btn-secondary w-full">Sign Up</button>
+      </div>
+    </form>
+
+    <div
+      class="w-full max-w-5xl p-6 bg-white rounded-lg shadow-md grid grid-cols-1 lg:grid-cols-2 gap-8">
+      <div>
+        <h1 class="text-2xl font-bold text-gray-800 text-center mb-4">
+          Investment Calculator
+        </h1>
+        <form id="investmentForm" class="space-y-4 text-black">
+          <div class="form-control">
+            <label class="label">
+              <span class="label-text initial-amount-label">Initial Investment Amount (USD)</span>
+            </label>
+            <input
+              type="number"
+              id="initialAmount"
+              class="input input-bordered w-full initial-amount-placeholder"
+              placeholder="e.g., 1000"
+              required />
+          </div>
+          <div class="form-control">
+            <label class="label">
+              <span class="label-text apr-label">Annual Percentage Rate (APR in %)</span>
+            </label>
+            <input
+              type="number"
+              id="apr"
+              class="input input-bordered w-full apr-placeholder"
+              placeholder="e.g., 180"
+              required />
+          </div>
+          <div class="form-control">
+            <label class="label">
+              <span class="label-text duration-label">Investment Duration (e.g., 18D, 2M, 1Y)</span>
+            </label>
+            <input
+              type="text"
+              id="duration"
+              class="input input-bordered w-full duration-placeholder"
+              placeholder="e.g., 1Y"
+              required />
+          </div>
+          <div class="form-control">
+            <label class="label">
+              <span class="label-text contribution-label">Additional Contribution (USD)</span>
+            </label>
+            <input
+              type="number"
+              id="additionalContribution"
+              class="input input-bordered w-full contribution-placeholder"
+              placeholder="e.g., 1000"
+              value="0" />
+          </div>
+          <div class="form-control">
+            <label class="label">
+              <span class="label-text interval-label">Contribution Interval (days)</span>
+            </label>
+            <input
+              type="number"
+              id="contributionInterval"
+              class="input input-bordered w-full interval-placeholder"
+              placeholder="e.g., 30"
+              value="30" />
+          </div>
+
+           <!-- Advanced Parameters Section -->
+           <div class="collapse collapse-arrow bg-gray-200 rounded-lg">
+            <input type="checkbox" id="advancedParamsToggle" />
+            <div class="collapse-title text-md font-medium text-gray-800">
+              Advanced Parameters
+            </div>
+            <div class="collapse-content">
+              <div class="form-control">
+                <label class="label">
+                  <span class="label-text">Compounding Frequency (days)</span>
+                </label>
+                <input
+                  type="number"
+                  id="compoundingFrequency"
+                  class="input input-bordered w-full"
+                  placeholder="e.g., 7"
+                  value="7" />
+              </div>
+              <div class="form-control mt-4">
+                <label class="label">
+                  <span class="label-text">Currency Conversion Rate</span>
+                </label>
+                <input
+                  type="number"
+                  id="conversionRate"
+                  class="input input-bordered w-full"
+                  placeholder="e.g., 6"
+                  value="1" />
+              </div>
+            </div>
+          </div>
+
+          <div class="form-control">
+            <button
+              type="button"
+              id="calculateButton"
+              class="btn btn-primary w-full">
+              Calculate
+            </button>
+          </div>
+        </form>
+      </div>
+      <!-- Results Section -->
+      <div id="results" class="hidden p-6 bg-gray-50 rounded-lg shadow-md">
+        <h2 class="text-xl font-semibold text-gray-800 mb-4">Results:</h2>
+        <div class="space-y-2">
+          <p id="resultDuration" class="text-gray-700"></p>
+          <p id="resultFinalValue" class="text-gray-700 flex items-center">
+            <span>Final Investment Value: </span>
+            <span class="ml-2" id="resultFinalValueText">$0.00</span>
+            <button
+              class="ml-4 btn btn-ghost text-blue-500"
+              id="copyFinalValue">
+              <i class="fas fa-copy"></i> Copy
+            </button>
+            <button
+              class="ml-2 btn btn-ghost text-green-500"
+              id="shareFinalValue">
+              <i class="fas fa-share-alt"></i> Share
+            </button>
+          </p>
+          <p id="resultTotalInvested" class="text-gray-700"></p>
+          <p id="resultTotalProfit" class="text-gray-700"></p>
+          <p id="resultROI" class="text-gray-700"></p>
+          <p id="resultConvertedValue" class="text-gray-700"></p>
+          <p id="resultConvertedProfit" class="text-gray-700"></p>
+        </div>
       </div>
     </div>
-  </div>
+    
+    <footer class="w-full bg-gray-800 text-white py-6">
+      <div class="container mx-auto flex flex-col lg:flex-row items-center justify-between">
+        <div>
+          <p class="contact-me text-lg font-semibold">Contact Me</p>
+          <p>
+            <span class="email-label">Email</span>: 
+            <a href="mailto:mo.alfaghi@gmail.com" class="underline text-blue-400">mo.alfaghi@gmail.com</a>
+          </p>
+          <p>
+            <span class="whatsapp-label">WhatsApp</span>: 
+            <a href="https://wa.me/+218926462359" target="_blank" class="underline text-green-400">+218926462359</a>
+          </p>
+        </div>
+        <div>
+          <p class="follow-me text-lg font-semibold">Follow Me</p>
+          <a href="https://linktr.ee/malfaghi" target="_blank" class="underline text-blue-400">Linktree</a>
+        </div>
+      </div>
+    </footer>
 
-  <script>
-    function parseDuration(durationStr, compoundingFrequency) {
-      const unit = durationStr.slice(-1).toUpperCase();
-      const value = parseInt(durationStr.slice(0, -1), 10);
-      let days;
-  
-      if (unit === 'D') days = value;
-      else if (unit === 'M') days = value * 30;
-      else if (unit === 'Y') days = value * 365;
-      else throw new Error("Invalid duration format. Use 'D', 'M', or 'Y'.");
-  
-      return Math.floor(days / compoundingFrequency) * compoundingFrequency; // Round down to compounding frequency
-    }
-  
-    function calculateInvestment({ initialAmount, apr, days, additionalContribution, contributionInterval, compoundingFrequency }) {
-      const ratePerPeriod = apr / 365 * compoundingFrequency / 100; // Convert APR to rate per compounding period
-      const totalPeriods = days / compoundingFrequency; // Total periods in the investment duration
-      const contributionPeriods = contributionInterval / compoundingFrequency; // Contribution interval in periods
-      const numContributions = Math.floor(totalPeriods / contributionPeriods); // Total number of contributions
-  
-      let futureValue = 0;
-      let totalInvested = initialAmount;
-  
-      for (let n = 0; n < numContributions; n++) {
-        const periodsRemaining = totalPeriods - n * contributionPeriods;
-        futureValue += additionalContribution * Math.pow(1 + ratePerPeriod, periodsRemaining);
-        totalInvested += additionalContribution;
+    <script>
+      function parseDuration(durationStr, compoundingFrequency) {
+        const unit = durationStr.slice(-1).toUpperCase();
+        const value = parseInt(durationStr.slice(0, -1), 10);
+        let days;
+
+        if (unit === "D") days = value;
+        else if (unit === "M") days = value * 30;
+        else if (unit === "Y") days = value * 365;
+        else throw new Error("Invalid duration format. Use 'D', 'M', or 'Y'.");
+
+        return Math.floor(days / compoundingFrequency) * compoundingFrequency; // Round down to compounding frequency
       }
-  
-      // Add initial amount compounded over the entire period
-      futureValue += initialAmount * Math.pow(1 + ratePerPeriod, totalPeriods);
-  
-      return { futureValue, totalInvested };
-    }
-  
-    document.getElementById('calculateButton').addEventListener('click', () => {
-      try {
-        const initialAmount = parseFloat(document.getElementById('initialAmount').value);
-        const apr = parseFloat(document.getElementById('apr').value);
-        const durationStr = document.getElementById('duration').value;
-        const additionalContribution = parseFloat(document.getElementById('additionalContribution').value);
-        const contributionInterval = parseInt(document.getElementById('contributionInterval').value, 10);
-        const compoundingFrequency = parseInt(document.getElementById('compoundingFrequency').value, 10);
-        const conversionRate = parseFloat(document.getElementById('conversionRate').value);
-  
-        const days = parseDuration(durationStr, compoundingFrequency);
-        const { futureValue, totalInvested } = calculateInvestment({
-          initialAmount,
-          apr,
-          days,
-          additionalContribution,
-          contributionInterval,
-          compoundingFrequency
+
+      function calculateInvestment({
+        initialAmount,
+        apr,
+        days,
+        additionalContribution,
+        contributionInterval,
+        compoundingFrequency,
+      }) {
+        const ratePerPeriod = ((apr / 365) * compoundingFrequency) / 100; // Convert APR to rate per compounding period
+        const totalPeriods = days / compoundingFrequency; // Total periods in the investment duration
+        const contributionPeriods = contributionInterval / compoundingFrequency; // Contribution interval in periods
+        const numContributions = Math.floor(totalPeriods / contributionPeriods); // Total number of contributions
+
+        let futureValue = 0;
+        let totalInvested = initialAmount;
+
+        for (let n = 0; n < numContributions; n++) {
+          const periodsRemaining = totalPeriods - n * contributionPeriods;
+          futureValue +=
+            additionalContribution *
+            Math.pow(1 + ratePerPeriod, periodsRemaining);
+          totalInvested += additionalContribution;
+        }
+
+        // Add initial amount compounded over the entire period
+        futureValue +=
+          initialAmount * Math.pow(1 + ratePerPeriod, totalPeriods);
+
+        return { futureValue, totalInvested };
+      }
+
+      document
+        .getElementById("calculateButton")
+        .addEventListener("click", () => {
+          try {
+            const initialAmount = parseFloat(
+              document.getElementById("initialAmount").value
+            );
+            const apr = parseFloat(document.getElementById("apr").value);
+            const durationStr = document.getElementById("duration").value;
+            const additionalContribution = parseFloat(
+              document.getElementById("additionalContribution").value
+            );
+            const contributionInterval = parseInt(
+              document.getElementById("contributionInterval").value,
+              10
+            );
+            const compoundingFrequency = parseInt(
+              document.getElementById("compoundingFrequency").value,
+              10
+            );
+            const conversionRate = parseFloat(
+              document.getElementById("conversionRate").value
+            );
+
+            const days = parseDuration(durationStr, compoundingFrequency);
+            const { futureValue, totalInvested } = calculateInvestment({
+              initialAmount,
+              apr,
+              days,
+              additionalContribution,
+              contributionInterval,
+              compoundingFrequency,
+            });
+
+            const totalProfit = futureValue - totalInvested;
+            const roi = (totalProfit / totalInvested) * 100;
+            const convertedValue = futureValue * conversionRate;
+            const convertedProfit = totalProfit * conversionRate;
+
+            // Display results
+            document.getElementById("results").classList.remove("hidden");
+            document.getElementById(
+              "resultDuration"
+            ).textContent = `Duration (rounded down to nearest compounding period): ${days} days`;
+            document.getElementById(
+              "resultFinalValueText"
+            ).textContent = `$${futureValue.toFixed(2)}`;
+            document.getElementById(
+              "resultTotalInvested"
+            ).textContent = `Total Invested: $${totalInvested.toFixed(2)}`;
+            document.getElementById(
+              "resultTotalProfit"
+            ).textContent = `Total Profit: $${totalProfit.toFixed(2)}`;
+            document.getElementById(
+              "resultROI"
+            ).textContent = `ROI: ${roi.toFixed(2)}%`;
+            document.getElementById(
+              "resultConvertedValue"
+            ).textContent = `Converted Value: ${convertedValue.toFixed(2)}`;
+            document.getElementById(
+              "resultConvertedProfit"
+            ).textContent = `Converted Profit: ${convertedProfit.toFixed(2)}`;
+          } catch (error) {
+            alert(error.message);
+          }
         });
-  
-        const totalProfit = futureValue - totalInvested;
-        const roi = (totalProfit / totalInvested) * 100;
-        const convertedValue = futureValue * conversionRate;
-        const convertedProfit = totalProfit * conversionRate;
-  
-        // Display results
-        document.getElementById('results').classList.remove('hidden');
-        document.getElementById('resultDuration').textContent = `Duration (rounded down to nearest compounding period): ${days} days`;
-        document.getElementById('resultFinalValueText').textContent = `$${futureValue.toFixed(2)}`;
-        document.getElementById('resultTotalInvested').textContent = `Total Invested: $${totalInvested.toFixed(2)}`;
-        document.getElementById('resultTotalProfit').textContent = `Total Profit: $${totalProfit.toFixed(2)}`;
-        document.getElementById('resultROI').textContent = `ROI: ${roi.toFixed(2)}%`;
-        document.getElementById('resultConvertedValue').textContent = `Converted Value: ${convertedValue.toFixed(2)}`;
-        document.getElementById('resultConvertedProfit').textContent = `Converted Profit: ${convertedProfit.toFixed(2)}`;
-      } catch (error) {
-        alert(error.message);
+
+      function generateShareableMessage(initialAmount, futureValue, days) {
+        return `Check out my investment calculation! I can turn $${initialAmount.toFixed(
+          2
+        )} to $${futureValue.toFixed(
+          2
+        )} in ${days} days.\n\nCalculation provided by Investment Calculator\n\nhttps://compound-investment-calculator.netlify.app`;
       }
-    });
-  
-    function generateShareableMessage(initialAmount, futureValue, days) {
-      return `Check out my investment calculation! I can turn $${initialAmount.toFixed(
-        2
-      )} to $${futureValue.toFixed(2)} in ${days} days.\n\nCalculation provided by Investment Calculator\n\nhttps://compound-investment-calculator.netlify.app`;
-    }
-  
-    // Copy Final Value and Results to Clipboard
-    document.getElementById('copyFinalValue').addEventListener('click', () => {
-      const initialAmount = parseFloat(document.getElementById('initialAmount').value);
-      const futureValue = parseFloat(document.getElementById('resultFinalValueText').textContent.replace('$', ''));
-      const days = parseInt(document.getElementById('resultDuration').textContent.match(/\d+/)[0]);
-  
-      const message = generateShareableMessage(initialAmount, futureValue, days);
-  
-      navigator.clipboard.writeText(message).then(() => {
-        alert('Results copied to clipboard!');
-      });
-    });
-  
-    // Share Final Value and Results
-    document.getElementById('shareFinalValue').addEventListener('click', () => {
-      const initialAmount = parseFloat(document.getElementById('initialAmount').value);
-      const futureValue = parseFloat(document.getElementById('resultFinalValueText').textContent.replace('$', ''));
-      const days = parseInt(document.getElementById('resultDuration').textContent.match(/\d+/)[0]);
-  
-      const message = generateShareableMessage(initialAmount, futureValue, days);
-  
-      const whatsappUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(message)}`;
-      const messengerUrl = `https://www.messenger.com/t/?message=${encodeURIComponent(message)}`;
-  
-      window.open(whatsappUrl, '_blank');
-      window.open(messengerUrl, '_blank');
-    });
-  </script>
- <script>
-    const scriptURL = 'https://script.google.com/macros/s/AKfycbyyBYuAeGK_DNSkKdQ1E_owVmmCwK0jf9x1FhBO-3yM9kMfYBGm7ccFGzcb3oRhJgbWHg/exec';
-  
-    // Log visitor data to Google Sheets
-    function logVisitor() {
-      fetch('https://api.ipify.org?format=json')
-        .then((response) => response.json())
-        .then((data) => {
-          const visitorData = { type: 'visitor_log', ip: data.ip };
-          saveDataToGoogleSheets(visitorData);
+
+      // Copy Final Value and Results to Clipboard
+      document
+        .getElementById("copyFinalValue")
+        .addEventListener("click", () => {
+          const initialAmount = parseFloat(
+            document.getElementById("initialAmount").value
+          );
+          const futureValue = parseFloat(
+            document
+              .getElementById("resultFinalValueText")
+              .textContent.replace("$", "")
+          );
+          const days = parseInt(
+            document
+              .getElementById("resultDuration")
+              .textContent.match(/\d+/)[0]
+          );
+
+          const message = generateShareableMessage(
+            initialAmount,
+            futureValue,
+            days
+          );
+
+          navigator.clipboard.writeText(message).then(() => {
+            alert("Results copied to clipboard!");
+          });
+        });
+
+      // Share Final Value and Results
+      document
+        .getElementById("shareFinalValue")
+        .addEventListener("click", () => {
+          const initialAmount = parseFloat(
+            document.getElementById("initialAmount").value
+          );
+          const futureValue = parseFloat(
+            document
+              .getElementById("resultFinalValueText")
+              .textContent.replace("$", "")
+          );
+          const days = parseInt(
+            document
+              .getElementById("resultDuration")
+              .textContent.match(/\d+/)[0]
+          );
+
+          const message = generateShareableMessage(
+            initialAmount,
+            futureValue,
+            days
+          );
+
+          const whatsappUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(
+            message
+          )}`;
+          const messengerUrl = `https://www.messenger.com/t/?message=${encodeURIComponent(
+            message
+          )}`;
+
+          window.open(whatsappUrl, "_blank");
+          window.open(messengerUrl, "_blank");
+        });
+    </script>
+    <script>
+      const scriptURL =
+        "https://script.google.com/macros/s/AKfycbyyBYuAeGK_DNSkKdQ1E_owVmmCwK0jf9x1FhBO-3yM9kMfYBGm7ccFGzcb3oRhJgbWHg/exec";
+
+      // Log visitor data to Google Sheets
+      function logVisitor() {
+        fetch("https://api.ipify.org?format=json")
+          .then((response) => response.json())
+          .then((data) => {
+            const visitorData = { type: "visitor_log", ip: data.ip };
+            saveDataToGoogleSheets(visitorData);
+          })
+          .catch((error) => console.error("Error logging visitor:", error));
+      }
+
+      // Save data to Google Sheets
+      function saveDataToGoogleSheets(data) {
+        const scriptURL =
+          "https://script.google.com/macros/s/AKfycbyaI093oHAgMho3cg3uID163NX7minidCx1o-S4_DCmYjeEmbZqbYMu0oUB8BVSNm2qJQ/exec";
+        fetch(scriptURL, {
+          method: "POST",
+          mode: "no-cors", // Disable CORS checks
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
         })
-        .catch((error) => console.error('Error logging visitor:', error));
-    }
-  
-    // Save data to Google Sheets
-    function saveDataToGoogleSheets(data) {
-      fetch(scriptURL, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data),
-      })
-        .then((response) => response.text())
-        .then((message) => console.log('Success:', message))
-        .catch((error) => console.error('Error:', error));
-    }
-  
-    // Log visitor on page load
-    document.addEventListener('DOMContentLoaded', () => {
-      logVisitor();
-    });
-  
-    // Newsletter form submission
-    document.getElementById('newsletterForm').addEventListener('submit', (e) => {
-      e.preventDefault();
-      const email = document.getElementById('newsletterEmail').value;
-  
-      const newsletterData = {
-        type: 'newsletter',
-        email: email,
+          .then(() => console.log("Data sent successfully (no-cors mode)"))
+          .catch((error) => console.error("Error:", error));
+      }
+      // Log visitor on page load
+      document.addEventListener("DOMContentLoaded", () => {
+        logVisitor();
+      });
+
+      // Newsletter form submission
+      document
+        .getElementById("newsletterForm")
+        .addEventListener("submit", (e) => {
+          e.preventDefault();
+          const email = document.getElementById("newsletterEmail").value;
+
+          const newsletterData = {
+            type: "newsletter",
+            email: email,
+          };
+
+          saveDataToGoogleSheets(newsletterData);
+
+          alert("Thank you for signing up for the newsletter!");
+          document.getElementById("newsletterEmail").value = ""; // Reset the form
+        });
+    </script>
+    <script>
+      const translations = {
+        en: {
+          newsletterHeading: "Sign Up for Our Newsletter",
+          newsletterDescription: "We'll notify you with all our new tools",
+          newsletterPlaceholder: "Enter your email",
+          contactMe: "Contact Me",
+          email: "Email",
+          whatsapp: "WhatsApp",
+          followMe: "Follow Me",
+          initialAmountLabel: "Initial Investment Amount (USD)",
+          initialAmountPlaceholder: "e.g., 1000",
+          aprLabel: "Annual Percentage Rate (APR in %)",
+          aprPlaceholder: "e.g., 180",
+          durationLabel: "Investment Duration (e.g., 18D, 2M, 1Y)",
+          durationPlaceholder: "e.g., 1Y",
+          contributionLabel: "Additional Contribution (USD)",
+          contributionPlaceholder: "e.g., 1000",
+          intervalLabel: "Contribution Interval (days)",
+          intervalPlaceholder: "e.g., 30",
+        },
+        ar: {
+          newsletterHeading: "اشترك في نشرتنا الإخبارية",
+          newsletterDescription: "سنخطرك بجميع أدواتنا الجديدة",
+          newsletterPlaceholder: "أدخل بريدك الإلكتروني",
+          contactMe: "اتصل بي",
+          email: "البريد الإلكتروني",
+          whatsapp: "واتساب",
+          followMe: "تابعني",
+          initialAmountLabel: "مبلغ الاستثمار الأولي (بالدولار)",
+          initialAmountPlaceholder: "مثال: 1000",
+          aprLabel: "معدل الربح السنوي (٪)",
+          aprPlaceholder: "مثال: 180",
+          durationLabel: "مدة الاستثمار (مثال: 18 يوم، شهرين، سنة)",
+          durationPlaceholder: "مثال: سنة واحدة",
+          contributionLabel: "المساهمة الإضافية (بالدولار)",
+          contributionPlaceholder: "مثال: 1000",
+          intervalLabel: "الفاصل الزمني للمساهمة (بالأيام)",
+          intervalPlaceholder: "مثال: 30",
+        },
       };
-  
-      var res = saveDataToGoogleSheets(newsletterData);
-      console.log(res);
-  
-      alert('Thank you for signing up for the newsletter!');
-      document.getElementById('newsletterEmail').value = ''; // Reset the form
-    });
-  </script>
-</body>
+
+      const languageSelector = document.getElementById("languageSelector");
+
+      function updateLanguage(language) {
+        const body = document.querySelector("body");
+
+        // Set the direction attribute based on language
+        body.setAttribute("dir", language === "ar" ? "rtl" : "ltr");
+
+        // Update page content
+        document.querySelector(".newsletter-heading").textContent = translations[language].newsletterHeading;
+        document.querySelector(".newsletter-description").textContent = translations[language].newsletterDescription;
+        document.getElementById("newsletterEmail").placeholder = translations[language].newsletterPlaceholder;
+
+        document.querySelector(".contact-me").textContent = translations[language].contactMe;
+        document.querySelector(".email-label").textContent = translations[language].email;
+        document.querySelector(".whatsapp-label").textContent = translations[language].whatsapp;
+        document.querySelector(".follow-me").textContent = translations[language].followMe;
+
+        document.querySelector(".initial-amount-label").textContent = translations[language].initialAmountLabel;
+        document.getElementById("initialAmount").placeholder = translations[language].initialAmountPlaceholder;
+
+        document.querySelector(".apr-label").textContent = translations[language].aprLabel;
+        document.getElementById("apr").placeholder = translations[language].aprPlaceholder;
+
+        document.querySelector(".duration-label").textContent = translations[language].durationLabel;
+        document.getElementById("duration").placeholder = translations[language].durationPlaceholder;
+
+        document.querySelector(".contribution-label").textContent = translations[language].contributionLabel;
+        document.getElementById("additionalContribution").placeholder = translations[language].contributionPlaceholder;
+
+        document.querySelector(".interval-label").textContent = translations[language].intervalLabel;
+        document.getElementById("contributionInterval").placeholder = translations[language].intervalPlaceholder;
+      }
+
+      // Add event listener to language selector
+      languageSelector.addEventListener("change", (e) => {
+        updateLanguage(e.target.value);
+      });
+
+      // Set default language
+      updateLanguage("en");
+    </script>
+  </body>
 </html>
